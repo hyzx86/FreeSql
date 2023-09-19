@@ -79,7 +79,10 @@ public class g
         .Build());
     public static IFreeSql oracle => oracleLazy.Value;
 
-    static Lazy<IFreeSql> sqliteLazy = new Lazy<IFreeSql>(() => new FreeSql.FreeSqlBuilder()
+    static Lazy<IFreeSql> sqliteLazy = new Lazy<IFreeSql>(() =>
+
+    {
+        var fsql = new FreeSql.FreeSqlBuilder()
         .UseConnectionString(FreeSql.DataType.Sqlite, @"Data Source=|DataDirectory|\document.db;Attachs=xxxtb.db;")
         //.UseConnectionFactory(FreeSql.DataType.Sqlite, () => new Microsoft.Data.Sqlite.SqliteConnection(@"Data Source=documentCore.db"))
         //.UseConnectionFactory(FreeSql.DataType.Sqlite, () =>
@@ -92,6 +95,11 @@ public class g
         //    //cmd.Dispose();
         //    return conn;
         //})
+        //测试 AOP 优先
+        .UseMappingPriority(
+            FreeSql.Internal.MappingPriorityType.FluentApi,
+        FreeSql.Internal.MappingPriorityType.Attribute,
+        FreeSql.Internal.MappingPriorityType.Aop)
         .UseAutoSyncStructure(true)
         //.UseGenerateCommandParameterWithLambda(true)
         .UseLazyLoading(true)
@@ -99,7 +107,16 @@ public class g
             cmd => Trace.WriteLine("\r\n线程" + Thread.CurrentThread.ManagedThreadId + ": " + cmd.CommandText) //监听SQL命令对象，在执行前
             //, (cmd, traceLog) => Console.WriteLine(traceLog)
             )
-        .Build());
+        .Build();
+
+        fsql.Aop.ConfigEntity += (s, e) =>
+        {
+            e.ModifyResult.Name = $"Prefix_{e.ModifyResult.Name}";
+        };
+        return fsql;
+    }
+    );
+
     public static IFreeSql sqlite => sqliteLazy.Value;
 
 
@@ -133,7 +150,8 @@ public class g
 
     static Lazy<IFreeSql> shentongLazy = new Lazy<IFreeSql>(() =>
     {
-        var connString = new System.Data.OscarClient.OscarConnectionStringBuilder {
+        var connString = new System.Data.OscarClient.OscarConnectionStringBuilder
+        {
             Host = "192.168.164.10",
             Port = 2003,
             UserName = "SYSDBA",

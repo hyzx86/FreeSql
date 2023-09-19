@@ -198,6 +198,9 @@ namespace FreeSql.Tests.Sqlite
         {
             var sql = g.sqlite.CodeFirst.GetComparisonDDLStatements<AddUniquesInfo>();
             g.sqlite.CodeFirst.SyncStructure<AddUniquesInfo>();
+            var tbinfo = g.sqlite.CodeFirst.GetTableByEntity(typeof(AddUniquesInfo));
+            Assert.True(tbinfo != null);
+            Assert.Contains(tbinfo.Indexes, x => x.Name == "Prefix_AddUniquesInfo2_uk_phone");
             g.sqlite.CodeFirst.SyncStructure(typeof(AddUniquesInfo), "AddUniquesInfo1");
         }
         [Table(Name = "AddUniquesInfo2", OldName = "AddUniquesInfo")]
