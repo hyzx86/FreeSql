@@ -18,7 +18,7 @@ namespace FreeSql.Tests
         public void WithLambdaParameter01()
         {
             using (var fsql = new FreeSql.FreeSqlBuilder()
-                .UseConnectionString(FreeSql.DataType.SqlServer, "Data Source=.;Integrated Security=True;Initial Catalog=freesqlTest;Pooling=true;Max Pool Size=6;TrustServerCertificate=true")
+                .UseConnectionString(FreeSql.DataType.SqlServer, Environment.GetEnvironmentVariable("SQLSERVER_2019_CONNECTION_STRING") ?? "Data Source=.;Integrated Security=True;Initial Catalog=freesqlTest;Pooling=true;Max Pool Size=6;TrustServerCertificate=true")
                 .UseAutoSyncStructure(true)
                 .UseGenerateCommandParameterWithLambda(true)
                 .UseMonitorCommand(
@@ -339,7 +339,7 @@ GROUP BY a.""code"", a.""seqid"", a.""name""", sql);
         public void SelectLambdaParameter()
         {
             using (var fsql = new FreeSql.FreeSqlBuilder()
-                .UseConnectionString(FreeSql.DataType.SqlServer, "Data Source=.;Integrated Security=True;Initial Catalog=freesqlTest;Pooling=true;min pool size=1;Max Pool Size=51;TrustServerCertificate=true")
+                .UseConnectionString(FreeSql.DataType.SqlServer, Environment.GetEnvironmentVariable("SQLSERVER_2019_CONNECTION_STRING") ?? "Data Source=.;Integrated Security=True;Initial Catalog=freesqlTest;Pooling=true;min pool size=1;Max Pool Size=51;TrustServerCertificate=true")
                 .UseAutoSyncStructure(true)
                 .UseGenerateCommandParameterWithLambda(true)
                 .UseMonitorCommand(

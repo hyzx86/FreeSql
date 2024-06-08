@@ -988,7 +988,7 @@ OFFSET 10 ROW", sqlSkip);
             list = select.Skip(10).ToList();
 
             using (var fsql = new FreeSql.FreeSqlBuilder()
-                .UseConnectionString(FreeSql.DataType.SqlServer, "Data Source=.;Integrated Security=True;Initial Catalog=freesqlTest;Pooling=true;Max Pool Size=3;TrustServerCertificate=true")
+                .UseConnectionString(FreeSql.DataType.SqlServer, Environment.GetEnvironmentVariable("SQLSERVER_2019_CONNECTION_STRING") ?? "Data Source=.;Integrated Security=True;Initial Catalog=freesqlTest;Pooling=true;Max Pool Size=3;TrustServerCertificate=true")
                 .UseAutoSyncStructure(true)
                 .UseMonitorCommand(
                     cmd => Trace.WriteLine("\r\n线程" + Thread.CurrentThread.ManagedThreadId + ": " + cmd.CommandText) //监听SQL命令对象，在执行前

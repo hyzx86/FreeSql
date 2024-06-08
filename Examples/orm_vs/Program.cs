@@ -22,7 +22,7 @@ namespace orm_vs
     class Program
     {
         static IFreeSql fsql = new FreeSql.FreeSqlBuilder()
-                .UseConnectionString(FreeSql.DataType.SqlServer, "Data Source=.;Integrated Security=True;Initial Catalog=tedb1;Pooling=true;Max Pool Size=21;TrustServerCertificate=true")
+                .UseConnectionString(FreeSql.DataType.SqlServer, Environment.GetEnvironmentVariable("SQLSERVER_2019_CONNECTION_STRING") ?? "Data Source=.;Integrated Security=True;Initial Catalog=tedb1;Pooling=true;Max Pool Size=21;TrustServerCertificate=true")
 				//.UseConnectionString(FreeSql.DataType.MySql, "Data Source=127.0.0.1;Port=3306;User ID=root;Password=root;Initial Catalog=cccddd;Charset=utf8;SslMode=none;Max pool size=21;AllowLoadLocalInfile=true;")
 				//.UseConnectionString(FreeSql.DataType.PostgreSQL, "Host=127.0.0.1;Port=5432;Username=postgres;Password=123456;Database=tedb;Pooling=true;Maximum Pool Size=21")
 				.UseAutoSyncStructure(false)

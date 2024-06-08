@@ -97,6 +97,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Directory.Build.props = Directory.Build.props
 		.github\ISSUE_TEMPLATE\feature-request.md = .github\ISSUE_TEMPLATE\feature-request.md
 		LICENSE = LICENSE
+		.github\workflows\pr.yml = .github\workflows\pr.yml
 		README.md = README.md
 		README.zh-CN.md = README.zh-CN.md
 	EndProjectSection
@@ -804,8 +805,8 @@ Global
 		{D9419896-BFB0-47C1-BEFD-A6C48394643B} = {4A92E8A6-9A6D-41A1-9CDA-DE10899648AA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {089687FD-5D25-40AB-BA8A-A10D1E137F98}
-		RESX_PrefixTranslations = True
 		RESX_NeutralResourcesLanguage = en-US
+		RESX_PrefixTranslations = True
+		SolutionGuid = {089687FD-5D25-40AB-BA8A-A10D1E137F98}
 	EndGlobalSection
 EndGlobal

@@ -11,7 +11,7 @@ namespace FreeSql.Tests.DataContext.SqlServer
         public SqlServerFixture()
         {
             sqlServerLazy = new Lazy<IFreeSql>(() => new FreeSql.FreeSqlBuilder()
-             .UseConnectionString(FreeSql.DataType.SqlServer, "Data Source=.;Integrated Security=True;Initial Catalog=freesqlTest;Pooling=true;Max Pool Size=2;TrustServerCertificate=true")
+             .UseConnectionString(FreeSql.DataType.SqlServer, Environment.GetEnvironmentVariable("SQLSERVER_2019_CONNECTION_STRING") ?? "Data Source=.;Integrated Security=True;Initial Catalog=freesqlTest;Pooling=true;Max Pool Size=2;TrustServerCertificate=true")
               //.UseConnectionString(FreeSql.DataType.SqlServer, "Data Source=(localdb)\\mssqllocaldb;Integrated Security=True;Initial Catalog=freesqlTest;Pooling=true;Max Pool Size=10")
               .UseAutoSyncStructure(true)
               .UseLazyLoading(true)

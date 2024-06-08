@@ -31,7 +31,7 @@ namespace FreeSql.Bechmarker
     public class Orm
     {
         public static IFreeSql fsql = new FreeSql.FreeSqlBuilder()
-                .UseConnectionString(FreeSql.DataType.SqlServer,
+                .UseConnectionString(FreeSql.DataType.SqlServer, Environment.GetEnvironmentVariable("SQLSERVER_2019_CONNECTION_STRING")??
                     "Data Source=.;Integrated Security=True;Initial Catalog=freesqlTest;Pooling=true;Max Pool Size=103;TrustServerCertificate=true;Encrypt=False",
                     typeof(FreeSql.SqlServer.SqlServerProvider<>))
                 //.UseConnectionString(FreeSql.DataType.MySql, "Data Source=127.0.0.1;Port=3306;User ID=root;Password=root;Initial Catalog=cccddd;Charset=utf8;SslMode=none;Max pool size=20")

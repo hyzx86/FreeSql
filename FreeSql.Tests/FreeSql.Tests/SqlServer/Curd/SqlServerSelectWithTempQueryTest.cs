@@ -810,7 +810,7 @@ WHERE (b.[RN] < 2)", sql);
         public void IssuesParameter01()
         {
             using (var fsql = new FreeSql.FreeSqlBuilder()
-                .UseConnectionFactory(FreeSql.DataType.SqlServer, () => new SqlConnection("Data Source=.;Integrated Security=True;Initial Catalog=issues684;Pooling=true;Max Pool Size=36;TrustServerCertificate=true"))
+                .UseConnectionFactory(FreeSql.DataType.SqlServer, () => new SqlConnection(Environment.GetEnvironmentVariable("SQLSERVER_2019_CONNECTION_STRING") ?? "Data Source=.;Integrated Security=True;Initial Catalog=issues684;Pooling=true;Max Pool Size=36;TrustServerCertificate=true"))
                 .UseAutoSyncStructure(true)
                 .UseGenerateCommandParameterWithLambda(true)
                 .Build())
