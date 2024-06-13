@@ -18,7 +18,7 @@
         <SignAssembly>true</SignAssembly>
         <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
         <DelaySign>false</DelaySign>
-		<Version>13.2.825-preview1</Version>
+		<Version>13.2.825-preview2</Version>
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
 	</PropertyGroup>
 
