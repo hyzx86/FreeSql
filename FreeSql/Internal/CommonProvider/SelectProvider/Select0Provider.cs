@@ -18,6 +18,8 @@ namespace FreeSql.Internal.CommonProvider
 {
     public abstract partial class Select0Provider
     {
+        static readonly string CacheKey = Guid.NewGuid().ToString() + ".";
+
         public int _limit, _skip;
         public string _select = "SELECT ", _orderby, _groupby, _having;
         public StringBuilder _where = new StringBuilder();
@@ -360,7 +362,7 @@ namespace FreeSql.Internal.CommonProvider
         public static MethodInfo MethodStringContains = typeof(string).GetMethod("Contains", new[] { typeof(string) });
         public static MethodInfo MethodStringStartsWith = typeof(string).GetMethod("StartsWith", new[] { typeof(string) });
         public static MethodInfo MethodStringEndsWith = typeof(string).GetMethod("EndsWith", new[] { typeof(string) });
-        static ConcurrentDictionary<string, MethodInfo> MethodEnumerableDic = Utils.GlobalCacheFactory.CreateCacheItem(new ConcurrentDictionary<string, MethodInfo>());
+        static ConcurrentDictionary<string, MethodInfo> MethodEnumerableDic = Utils.GlobalCacheFactory.CreateCacheItem(CacheKey+ "MethodEnumerableDic", new ConcurrentDictionary<string, MethodInfo>());
         public static MethodInfo GetMethodEnumerable(string methodName) => MethodEnumerableDic.GetOrAdd(methodName, et =>
         {
             var methods = typeof(Enumerable).GetMethods().Where(a => a.Name == et);
@@ -1237,7 +1239,9 @@ namespace FreeSql.Internal.CommonProvider
                     string.IsNullOrEmpty(testFilter.Value?.ToString());
             }
         }
-        static ConcurrentDictionary<MethodInfo, bool> _dicMethodIsDynamicFilterCustomAttribute = Utils.GlobalCacheFactory.CreateCacheItem(new ConcurrentDictionary<MethodInfo, bool>());
+        static readonly string CacheKey = Guid.NewGuid().ToString() + ".";
+
+        static ConcurrentDictionary<MethodInfo, bool> _dicMethodIsDynamicFilterCustomAttribute = Utils.GlobalCacheFactory.CreateCacheItem(CacheKey + "_dicMethodIsDynamicFilterCustomAttribute", new ConcurrentDictionary<MethodInfo, bool>());
         static bool MethodIsDynamicFilterCustomAttribute(MethodInfo method) => _dicMethodIsDynamicFilterCustomAttribute.GetOrAdd(method, m =>
         {
             object[] attrs = null;

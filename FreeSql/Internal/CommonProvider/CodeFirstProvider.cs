@@ -69,9 +69,11 @@ namespace FreeSql.Internal.CommonProvider
             }
         }
 
+        static readonly string CacheKey = Guid.NewGuid().ToString()+".";
+
         static object syncStructureLock = new object();
         object _dicSycedLock = new object();
-        public ConcurrentDictionary<Type, ConcurrentDictionary<string, bool>> _dicSynced = Utils.GlobalCacheFactory.CreateCacheItem(new ConcurrentDictionary<Type, ConcurrentDictionary<string, bool>>());
+        public ConcurrentDictionary<Type, ConcurrentDictionary<string, bool>> _dicSynced = Utils.GlobalCacheFactory.CreateCacheItem(CacheKey + "_dicSynced", new ConcurrentDictionary<Type, ConcurrentDictionary<string, bool>>());
         internal ConcurrentDictionary<string, bool> _dicSycedGetOrAdd(Type entityType)
         {
             if (_dicSynced.TryGetValue(entityType, out var trydic) == false)

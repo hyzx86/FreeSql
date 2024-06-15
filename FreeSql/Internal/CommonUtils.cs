@@ -109,8 +109,9 @@ namespace FreeSql.Internal
         {
             _orm = orm;
         }
+        static readonly string CacheKey = Guid.NewGuid().ToString() + ".";
 
-        ConcurrentDictionary<Type, TableAttribute> dicConfigEntity = Utils.GlobalCacheFactory.CreateCacheItem(new ConcurrentDictionary<Type, TableAttribute>());
+        ConcurrentDictionary<Type, TableAttribute> dicConfigEntity = Utils.GlobalCacheFactory.CreateCacheItem(CacheKey + "dicConfigEntity", new ConcurrentDictionary<Type, TableAttribute>());
         public ICodeFirst ConfigEntity<T>(Action<TableFluent<T>> entity)
         {
             if (entity == null) return _orm.CodeFirst;
@@ -136,7 +137,7 @@ namespace FreeSql.Internal
         }
 
         public MappingPriorityType[] _mappingPriorityTypes = new[] { MappingPriorityType.Aop, MappingPriorityType.FluentApi, MappingPriorityType.Attribute };
-        ConcurrentDictionary<Type, Dictionary<string, IndexAttribute>> dicAopConfigEntityIndex = Utils.GlobalCacheFactory.CreateCacheItem<ConcurrentDictionary<Type, Dictionary<string, IndexAttribute>>>();
+        ConcurrentDictionary<Type, Dictionary<string, IndexAttribute>> dicAopConfigEntityIndex = Utils.GlobalCacheFactory.CreateCacheItem<ConcurrentDictionary<Type, Dictionary<string, IndexAttribute>>>(CacheKey + "dicAopConfigEntityIndex");
         public TableAttribute GetEntityTableAttribute(Type type)
         {
             var attr = new TableAttribute();

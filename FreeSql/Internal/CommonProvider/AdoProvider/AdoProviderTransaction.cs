@@ -29,8 +29,9 @@ namespace FreeSql.Internal.CommonProvider
                 Timeout = timeout;
             }
         }
+        static readonly string CacheKey = Guid.NewGuid().ToString()+".";
 
-        private ConcurrentDictionary<int, Transaction2> _trans = Utils.GlobalCacheFactory.CreateCacheItem(new ConcurrentDictionary<int, Transaction2>());
+        private ConcurrentDictionary<int, Transaction2> _trans = Utils.GlobalCacheFactory.CreateCacheItem(CacheKey+"_trans", new ConcurrentDictionary<int, Transaction2>());
 
         public DbTransaction TransactionCurrentThread => _trans.TryGetValue(Thread.CurrentThread.ManagedThreadId, out var conn) && conn.Transaction?.Connection != null ? conn.Transaction : null;
         public Aop.TraceBeforeEventArgs TransactionCurrentThreadAopBefore => _trans.TryGetValue(Thread.CurrentThread.ManagedThreadId, out var conn) && conn.Transaction?.Connection != null ? conn.AopBefore : null;

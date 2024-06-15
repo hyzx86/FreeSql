@@ -11,11 +11,13 @@ namespace FreeSql
 {
     public class UnitOfWork : IUnitOfWork
     {
+        static readonly string CacheKey = Guid.NewGuid().ToString() + ".";
+
         static int _seed;
         /// <summary>
         /// 正在使用中的工作单元（调试）
         /// </summary>
-        public static ConcurrentDictionary<string, UnitOfWork> DebugBeingUsed { get; } = FreeSql.Internal.Utils.GlobalCacheFactory.CreateCacheItem<ConcurrentDictionary<string, UnitOfWork>>();
+        public static ConcurrentDictionary<string, UnitOfWork> DebugBeingUsed { get; } = FreeSql.Internal.Utils.GlobalCacheFactory.CreateCacheItem<ConcurrentDictionary<string, UnitOfWork>>(CacheKey + "DebugBeingUsed");
 
         protected IFreeSql _fsql;
         protected Object<DbConnection> _conn;

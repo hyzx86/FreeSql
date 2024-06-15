@@ -54,8 +54,9 @@ namespace FreeSql.Firebird
         public bool IsAutoDisposeWithSystem { get; set; } = true;
         public int CheckAvailableInterval { get; set; } = 2;
         public int Weight { get; set; } = 1;
+        static readonly string CacheKey = Guid.NewGuid().ToString() + ".";
 
-        static ConcurrentDictionary<string, int> dicConnStrIncr =FreeSql.Internal. Utils.GlobalCacheFactory.CreateCacheItem(new ConcurrentDictionary<string, int>(StringComparer.CurrentCultureIgnoreCase));
+        static ConcurrentDictionary<string, int> dicConnStrIncr = FreeSql.Internal.Utils.GlobalCacheFactory.CreateCacheItem(CacheKey + "dicConnStrIncr", new ConcurrentDictionary<string, int>(StringComparer.CurrentCultureIgnoreCase));
         private string _connectionString;
         public string ConnectionString
         {

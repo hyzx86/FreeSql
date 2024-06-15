@@ -66,8 +66,9 @@ namespace FreeSql.KingbaseES
             }
             return ret;
         }
+        static readonly string CacheKey = "KingbaseESConnectionPoolPolicy.";
 
-        static ConcurrentDictionary<int, DbToCs> _dicDbToCs = Utils.GlobalCacheFactory.CreateCacheItem(new ConcurrentDictionary<int, DbToCs>());
+        static ConcurrentDictionary<int, DbToCs> _dicDbToCs = Utils.GlobalCacheFactory.CreateCacheItem(CacheKey + "_dicDbToCs", new ConcurrentDictionary<int, DbToCs>());
         static KingbaseESDbFirst()
         {
             var defaultDbToCs = new Dictionary<int, DbToCs>() {

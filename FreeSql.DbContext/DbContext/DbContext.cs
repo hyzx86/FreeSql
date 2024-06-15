@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Threading;
 using FreeSql.Internal.Model;
+using FreeSql.Internal;
 
 namespace FreeSql
 {
@@ -81,8 +82,10 @@ namespace FreeSql
         protected virtual void OnConfiguring(DbContextOptionsBuilder options) { }
         protected virtual void OnModelCreating(ICodeFirst codefirst) { }
 
+        static readonly string CacheKey = Guid.NewGuid().ToString() + ".";
+
         #region Set
-        static ConcurrentDictionary<Type, NativeTuple<PropertyInfo[], bool>> _dicGetDbSetProps = new ConcurrentDictionary<Type, NativeTuple<PropertyInfo[], bool>>();
+        static ConcurrentDictionary<Type, NativeTuple<PropertyInfo[], bool>> _dicGetDbSetProps = Utils.GlobalCacheFactory.CreateCacheItem($"{CacheKey}_dicGetDbSetProps", new ConcurrentDictionary<Type, NativeTuple<PropertyInfo[], bool>>());
         static object _lockOnModelCreating = new object();
         internal void InitPropSets()
         {
@@ -96,7 +99,7 @@ namespace FreeSql
                     {
                         dicval = NativeTuple.Create(
                             thisType.GetProperties(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public)
-                                .Where(a => a.PropertyType.IsGenericType && 
+                                .Where(a => a.PropertyType.IsGenericType &&
                                     a.PropertyType == typeof(DbSet<>).MakeGenericType(a.PropertyType.GetGenericArguments()[0])).ToArray(),
                             false);
                         _dicGetDbSetProps.TryAdd(thisType, dicval);

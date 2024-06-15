@@ -31,7 +31,9 @@ namespace FreeSql
             return SaveChangesSuccess();
         }
 
-        static ConcurrentDictionary<Type, ConcurrentDictionary<string, Func<object, object[], int>>> _dicFlushCommandDbSetBatch = FreeSql.Internal.Utils.GlobalCacheFactory.CreateCacheItem<ConcurrentDictionary<Type, ConcurrentDictionary<string, Func<object, object[], int>>>>();
+        static ConcurrentDictionary<Type, ConcurrentDictionary<string, Func<object, object[], int>>> _dicFlushCommandDbSetBatch 
+            = FreeSql.Internal.Utils.GlobalCacheFactory.CreateCacheItem<ConcurrentDictionary<Type, ConcurrentDictionary<string, Func<object, object[], int>>>>(CacheKey + "_dicFlushCommandDbSetBatch");
+
         bool isFlushCommanding = false;
         /// <summary>
         /// 刷新队列中的命令

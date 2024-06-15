@@ -64,8 +64,11 @@ namespace FreeSql.Internal.Model
         }
 
 
+        static readonly string CacheKey = Guid.NewGuid().ToString() + ".";
 
-        static ConcurrentDictionary<ColumnInfo, Func<object, object>> _dicGetMapValue = Utils.GlobalCacheFactory.CreateCacheItem(new ConcurrentDictionary<ColumnInfo, Func<object, object>>());
+        static ConcurrentDictionary<ColumnInfo, Func<object, object>> _dicGetMapValue =
+            Utils.GlobalCacheFactory.CreateCacheItem(CacheKey + "_dicGetMapValue", new ConcurrentDictionary<ColumnInfo, Func<object, object>>());
+
         [Obsolete("请使用 GetDbValue 或者 GetValue")]
         public object GetMapValue(object obj)
         {
@@ -101,7 +104,9 @@ namespace FreeSql.Internal.Model
             });
             return func(obj);
         }
-        static ConcurrentDictionary<ColumnInfo, Action<object, object>> _dicSetMapValue = Utils.GlobalCacheFactory.CreateCacheItem(new ConcurrentDictionary<ColumnInfo, Action<object, object>>());
+        static ConcurrentDictionary<ColumnInfo, Action<object, object>> _dicSetMapValue =
+            Utils.GlobalCacheFactory.CreateCacheItem(CacheKey + "_dicSetMapValue", new ConcurrentDictionary<ColumnInfo, Action<object, object>>());
+
         [Obsolete("请使用 SetValue")]
         public void SetMapValue(object obj, object val)
         {

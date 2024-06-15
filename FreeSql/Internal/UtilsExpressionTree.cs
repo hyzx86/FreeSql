@@ -21,8 +21,9 @@ namespace FreeSql.Internal
     public class Utils
     {
         public static IGlobalCacheFactory GlobalCacheFactory { get; set; } = new DefaultCacheFactory();
-
-        public static ConcurrentDictionary<DataType, ConcurrentDictionary<Type, TableInfo>> _cacheGetTableByEntity = GlobalCacheFactory.CreateCacheItem(new ConcurrentDictionary<DataType, ConcurrentDictionary<Type, TableInfo>>());
+        static readonly string CacheKey = Guid.NewGuid().ToString() + ".";
+        public static ConcurrentDictionary<DataType, ConcurrentDictionary<Type, TableInfo>> _cacheGetTableByEntity =
+            GlobalCacheFactory.CreateCacheItem(CacheKey+ "_cacheGetTableByEntity", new ConcurrentDictionary<DataType, ConcurrentDictionary<Type, TableInfo>>());
         internal static void RemoveTableByEntity(Type entity, CommonUtils common)
         {
             if (entity.IsAnonymousType() ||
@@ -1686,7 +1687,7 @@ namespace FreeSql.Internal
             //[typeof(JArray)] = true,
         };
         internal static ConcurrentDictionary<string, ConcurrentDictionary<Type, Func<Type, int[], DbDataReader, int, CommonUtils, RowInfo>>> _dicExecuteArrayRowReadClassOrTuple
-            = Utils.GlobalCacheFactory.CreateCacheItem<ConcurrentDictionary<string, ConcurrentDictionary<Type, Func<Type, int[], DbDataReader, int, CommonUtils, RowInfo>>>>();
+            = Utils.GlobalCacheFactory.CreateCacheItem<ConcurrentDictionary<string, ConcurrentDictionary<Type, Func<Type, int[], DbDataReader, int, CommonUtils, RowInfo>>>>(CacheKey + "_dicExecuteArrayRowReadClassOrTuple");
         internal class RowInfo
         {
             public object Value { get; set; }
@@ -2110,7 +2111,7 @@ namespace FreeSql.Internal
         internal static MethodInfo MethodExecuteArrayRowReadClassOrTuple = typeof(Utils).GetMethod("ExecuteArrayRowReadClassOrTuple", BindingFlags.Static | BindingFlags.NonPublic);
         internal static MethodInfo MethodGetDataReaderValue = typeof(Utils).GetMethod("GetDataReaderValue", BindingFlags.Static | BindingFlags.NonPublic);
 
-        static ConcurrentDictionary<string, Action<object, object>> _dicFillPropertyValue = Utils.GlobalCacheFactory.CreateCacheItem<ConcurrentDictionary<string, Action<object, object>>>();
+        static ConcurrentDictionary<string, Action<object, object>> _dicFillPropertyValue = Utils.GlobalCacheFactory.CreateCacheItem<ConcurrentDictionary<string, Action<object, object>>>(CacheKey + "_dicFillPropertyValue");
         internal static void FillPropertyValue(object info, string memberAccessPath, object value)
         {
             var typeObj = info.GetType();
@@ -2162,7 +2163,7 @@ namespace FreeSql.Internal
             return str.ToCharArray(0, 1)[0];
         }
 
-        static ConcurrentDictionary<Type, ConcurrentDictionary<Type, Func<object, object>>> _dicGetDataReaderValue = Utils.GlobalCacheFactory.CreateCacheItem<ConcurrentDictionary<Type, ConcurrentDictionary<Type, Func<object, object>>>>();
+        static ConcurrentDictionary<Type, ConcurrentDictionary<Type, Func<object, object>>> _dicGetDataReaderValue = Utils.GlobalCacheFactory.CreateCacheItem<ConcurrentDictionary<Type, ConcurrentDictionary<Type, Func<object, object>>>>(CacheKey + "_dicGetDataReaderValue");
         static MethodInfo MethodArrayGetValue = typeof(Array).GetMethod("GetValue", new[] { typeof(int) });
         static MethodInfo MethodArrayGetLength = typeof(Array).GetMethod("GetLength", new[] { typeof(int) });
         static MethodInfo MethodGuidTryParse = typeof(Guid).GetMethod("TryParse", new[] { typeof(string), typeof(Guid).MakeByRefType() });
@@ -2197,10 +2198,10 @@ namespace FreeSql.Internal
         static MethodInfo MethodBytesToGuid = typeof(Utils).GetMethod("BytesToGuid", BindingFlags.Public | BindingFlags.Static, null, new[] { typeof(byte[]) }, null);
 
 
-        public static ConcurrentDictionary<Type, ITypeHandler> TypeHandlers { get; } = Utils.GlobalCacheFactory.CreateCacheItem<ConcurrentDictionary<Type, ITypeHandler>>();
-        public static ConcurrentBag<Func<LabelTarget, Expression, Type, Expression>> GetDataReaderValueBlockExpressionSwitchTypeFullName = Utils.GlobalCacheFactory.CreateCacheItem<ConcurrentBag<Func<LabelTarget, Expression, Type, Expression>>>();
-        public static ConcurrentBag<Func<LabelTarget, Expression, Expression, Type, Expression>> GetDataReaderValueBlockExpressionObjectToStringIfThenElse = Utils.GlobalCacheFactory.CreateCacheItem<ConcurrentBag<Func<LabelTarget, Expression, Expression, Type, Expression>>>();
-        public static ConcurrentBag<Func<LabelTarget, Expression, Expression, Type, Expression>> GetDataReaderValueBlockExpressionObjectToBytesIfThenElse = Utils.GlobalCacheFactory.CreateCacheItem<ConcurrentBag<Func<LabelTarget, Expression, Expression, Type, Expression>>>();
+        public static ConcurrentDictionary<Type, ITypeHandler> TypeHandlers { get; } = Utils.GlobalCacheFactory.CreateCacheItem<ConcurrentDictionary<Type, ITypeHandler>>(CacheKey + "TypeHandlers");
+        public static ConcurrentBag<Func<LabelTarget, Expression, Type, Expression>> GetDataReaderValueBlockExpressionSwitchTypeFullName = Utils.GlobalCacheFactory.CreateCacheItem<ConcurrentBag<Func<LabelTarget, Expression, Type, Expression>>>(CacheKey + "GetDataReaderValueBlockExpressionSwitchTypeFullName");
+        public static ConcurrentBag<Func<LabelTarget, Expression, Expression, Type, Expression>> GetDataReaderValueBlockExpressionObjectToStringIfThenElse = Utils.GlobalCacheFactory.CreateCacheItem<ConcurrentBag<Func<LabelTarget, Expression, Expression, Type, Expression>>>(CacheKey + "GetDataReaderValueBlockExpressionObjectToStringIfThenElse");
+        public static ConcurrentBag<Func<LabelTarget, Expression, Expression, Type, Expression>> GetDataReaderValueBlockExpressionObjectToBytesIfThenElse = Utils.GlobalCacheFactory.CreateCacheItem<ConcurrentBag<Func<LabelTarget, Expression, Expression, Type, Expression>>>(CacheKey + "GetDataReaderValueBlockExpressionObjectToBytesIfThenElse");
         public static Expression GetDataReaderValueBlockExpression(Type type, Expression value)
         {
             var returnTarget = Expression.Label(typeof(object));

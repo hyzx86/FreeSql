@@ -12,9 +12,10 @@ namespace FreeSql
     {
 
         internal static Action<FluentDataFilter> _globalDataFilter;
+        static readonly string CacheKey = Guid.NewGuid().ToString() + ".";
 
-        static ConcurrentDictionary<Type, Delegate> _dicSetRepositoryDataFilterApplyDataFilterFunc = FreeSql.Internal.Utils.GlobalCacheFactory.CreateCacheItem<ConcurrentDictionary<Type, Delegate>>();
-        static ConcurrentDictionary<Type, ConcurrentDictionary<string, bool>> _dicSetRepositoryDataFilterConvertFilterNotExists = FreeSql.Internal.Utils.GlobalCacheFactory.CreateCacheItem<ConcurrentDictionary<Type, ConcurrentDictionary<string, bool>>>();
+        static ConcurrentDictionary<Type, Delegate> _dicSetRepositoryDataFilterApplyDataFilterFunc = FreeSql.Internal.Utils.GlobalCacheFactory.CreateCacheItem<ConcurrentDictionary<Type, Delegate>>(CacheKey+ "_dicSetRepositoryDataFilterApplyDataFilterFunc");
+        static ConcurrentDictionary<Type, ConcurrentDictionary<string, bool>> _dicSetRepositoryDataFilterConvertFilterNotExists = FreeSql.Internal.Utils.GlobalCacheFactory.CreateCacheItem<ConcurrentDictionary<Type, ConcurrentDictionary<string, bool>>>(CacheKey + "_dicSetRepositoryDataFilterConvertFilterNotExists");
         internal static void SetRepositoryDataFilter(object repos, Action<FluentDataFilter> scopedDataFilter)
         {
             if (scopedDataFilter != null)

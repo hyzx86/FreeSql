@@ -20,7 +20,9 @@ namespace FreeSql
             return SaveChangesSuccess();
         }
 
-        static ConcurrentDictionary<Type, ConcurrentDictionary<string, Func<object, object[], CancellationToken, Task<int>>>> _dicFlushCommandDbSetBatchAsync = Utils.GlobalCacheFactory.CreateCacheItem<ConcurrentDictionary<Type, ConcurrentDictionary<string, Func<object, object[], CancellationToken, Task<int>>>>>();
+
+        static ConcurrentDictionary<Type, ConcurrentDictionary<string, Func<object, object[], CancellationToken, Task<int>>>> _dicFlushCommandDbSetBatchAsync 
+            = Utils.GlobalCacheFactory.CreateCacheItem<ConcurrentDictionary<Type, ConcurrentDictionary<string, Func<object, object[], CancellationToken, Task<int>>>>>(CacheKey + "_dicFlushCommandDbSetBatchAsync");
         internal async Task FlushCommandAsync(CancellationToken cancellationToken)
         {
             if (isFlushCommanding) return;

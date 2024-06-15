@@ -693,7 +693,10 @@ namespace FreeSql.Internal.CommonProvider
             return NativeTuple.Create(param, members.ToList());
         }
         static MethodInfo GetEntityValueWithPropertyNameMethod = typeof(EntityUtilExtensions).GetMethod("GetEntityValueWithPropertyName");
-        static ConcurrentDictionary<Type, ConcurrentDictionary<string, MethodInfo>> _dicTypeMethod = Utils.GlobalCacheFactory.CreateCacheItem(new ConcurrentDictionary<Type, ConcurrentDictionary<string, MethodInfo>>());
+
+        static readonly string CacheKey = Guid.NewGuid().ToString() + ".";
+
+        static ConcurrentDictionary<Type, ConcurrentDictionary<string, MethodInfo>> _dicTypeMethod = Utils.GlobalCacheFactory.CreateCacheItem(CacheKey + "_dicTypeMethod", new ConcurrentDictionary<Type, ConcurrentDictionary<string, MethodInfo>>());
         public ISelect<T1> IncludeMany<TNavigate>(Expression<Func<T1, IEnumerable<TNavigate>>> navigateSelector, Action<ISelect<TNavigate>> then = null) where TNavigate : class
         {
             var throwNavigateSelector = new Exception(CoreStrings.IncludeMany_ParameterType_Error_Use_MemberAccess);

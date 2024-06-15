@@ -19,7 +19,7 @@ namespace FreeSql
     public class AggregateRootUtils
     {
         static ConcurrentDictionary<PropertyInfo, ConcurrentDictionary<string, AggregateRootBoundaryAttribute>> _dicGetPropertyBoundaryAttribute
-            = Utils.GlobalCacheFactory.CreateCacheItem<ConcurrentDictionary<PropertyInfo, ConcurrentDictionary<string, AggregateRootBoundaryAttribute>>>();
+            = Utils.GlobalCacheFactory.CreateCacheItem<ConcurrentDictionary<PropertyInfo, ConcurrentDictionary<string, AggregateRootBoundaryAttribute>>>("AggregateRootUtils._dicGetPropertyBoundaryAttribute");
         public static AggregateRootBoundaryAttribute GetPropertyBoundaryAttribute(PropertyInfo prop, string boundaryName)
         {
             if (boundaryName == null) return null;
@@ -436,8 +436,10 @@ namespace FreeSql
             }
         }
 
+        static readonly string CacheKey = Guid.NewGuid().ToString() + ".";
+
         static ConcurrentDictionary<string, ConcurrentDictionary<Type, ConcurrentDictionary<Type, Action<ISelect0>>>> _dicGetAutoIncludeQuery 
-            = Utils.GlobalCacheFactory.CreateCacheItem<ConcurrentDictionary<string, ConcurrentDictionary<Type, ConcurrentDictionary<Type, Action<ISelect0>>>>>();
+            = Utils.GlobalCacheFactory.CreateCacheItem<ConcurrentDictionary<string, ConcurrentDictionary<Type, ConcurrentDictionary<Type, Action<ISelect0>>>>>(CacheKey+ "_dicGetAutoIncludeQuery");
         public static ISelect<TEntity> GetAutoIncludeQuery<TEntity>(string boundaryName, ISelect<TEntity> select)
         {
             var select0p = select as Select0Provider;

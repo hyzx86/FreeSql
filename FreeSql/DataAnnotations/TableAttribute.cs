@@ -236,7 +236,7 @@ namespace FreeSql.DataAnnotations
             }
         }
 
-        static readonly ConcurrentDictionary<string, Regex[]> _dicRegSqlWhereDateTimes = Utils.GlobalCacheFactory.CreateCacheItem(new ConcurrentDictionary<string, Regex[]>());
+        static readonly ConcurrentDictionary<string, Regex[]> _dicRegSqlWhereDateTimes = Utils.GlobalCacheFactory.CreateCacheItem("DateTimeAsTableImpl._dicRegSqlWhereDateTimes", new ConcurrentDictionary<string, Regex[]>());
         static Regex[] GetRegSqlWhereDateTimes(string columnName, string quoteParameterName)
         {
             return _dicRegSqlWhereDateTimes.GetOrAdd($"{columnName},{quoteParameterName}", cn =>

@@ -8,12 +8,12 @@ namespace FreeSql.Internal
 {
     public class DefaultCacheFactory : IGlobalCacheFactory
     {
-        public T CreateCacheItem<T>(T defaultValue = null) where T : class, new()
+        public T CreateCacheItem<T>(string cacheKey, T defaultValue = null) where T : class, new()
         {
             return defaultValue ?? new T();
         }
 
-        public T CreateCacheItem<T>() where T : new()
+        public T CreateCacheItem<T>(string cacheKey) where T : new()
         {
             return new T();
         }

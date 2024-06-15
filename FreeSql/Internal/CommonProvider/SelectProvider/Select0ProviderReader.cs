@@ -395,7 +395,9 @@ namespace FreeSql.Internal.CommonProvider
             return ToListMrPrivate<TReturn>(sql, af, otherData);
         }
         protected List<TReturn> ToListMapReader<TReturn>(ReadAnonymousTypeAfInfo af) => ToListMapReaderPrivate<TReturn>(af, null);
-        static ConcurrentDictionary<string, GetAllFieldExpressionTreeInfo> _dicGetAllFieldExpressionTree = Utils.GlobalCacheFactory.CreateCacheItem(new ConcurrentDictionary<string, GetAllFieldExpressionTreeInfo>());
+
+
+        static ConcurrentDictionary<string, GetAllFieldExpressionTreeInfo> _dicGetAllFieldExpressionTree = Utils.GlobalCacheFactory.CreateCacheItem(CacheKey + "_dicGetAllFieldExpressionTree", new ConcurrentDictionary<string, GetAllFieldExpressionTreeInfo>());
         public class GetAllFieldExpressionTreeInfo
         {
             public string Field { get; set; }
@@ -1388,7 +1390,7 @@ namespace FreeSql.Internal.CommonProvider
             return (await ToListQfPrivateAsync<decimal>(sql, field, cancellationToken)).Sum();
         }
 
-        static ConcurrentDictionary<Type, MethodInfo[]> _dicGetMethodsByName = Utils.GlobalCacheFactory.CreateCacheItem(new ConcurrentDictionary<Type, MethodInfo[]>());
+        static ConcurrentDictionary<Type, MethodInfo[]> _dicGetMethodsByName = Utils.GlobalCacheFactory.CreateCacheItem(CacheKey + "_dicGetMethodsByName", new ConcurrentDictionary<Type, MethodInfo[]>());
         async protected Task<List<TReturn>> InternalToListAsync<TReturn>(Expression select, CancellationToken cancellationToken)
         {
             //【注意】：此异步有特别逻辑，因为要处理子查询集合 ToList -> ToListAsync，原因是 LambdaExpression 表达式树内不支持 await Async

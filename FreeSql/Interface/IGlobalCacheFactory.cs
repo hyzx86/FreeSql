@@ -7,7 +7,7 @@ namespace FreeSql.Interface
 {
     public interface IGlobalCacheFactory
     {
-        T CreateCacheItem<T>(T defaultValue = null) where T : class, new();
-        T CreateCacheItem<T>() where T : new();
+        T CreateCacheItem<T>(string cacheKey, T defaultValue = null) where T : class, new();
+        T CreateCacheItem<T>(string cacheKey) where T : new();
     }
 }

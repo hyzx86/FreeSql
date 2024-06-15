@@ -140,7 +140,7 @@ namespace FreeSql.Xugu
         public override string QuoteWriteParamterAdapter(Type type, string paramterName) => paramterName;
         protected override string QuoteReadColumnAdapter(Type type, Type mapType, string columnName) => columnName;
 
-        static ConcurrentDictionary<Type, bool> _dicIsAssignableFromPostgisGeometry = Utils.GlobalCacheFactory.CreateCacheItem<ConcurrentDictionary<Type, bool>>();
+        //static ConcurrentDictionary<Type, bool> _dicIsAssignableFromPostgisGeometry = Utils.GlobalCacheFactory.CreateCacheItem<ConcurrentDictionary<Type, bool>>("XuguUtils._dicIsAssignableFromPostgisGeometry");
         public override string GetNoneParamaterSqlValue(List<DbParameter> specialParams, string specialParamFlag, ColumnInfo col, Type type, object value)
         {
             if (value == null) return "NULL";

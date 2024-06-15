@@ -659,7 +659,9 @@ namespace FreeSql
             return ret;
         }
         static int _isTypeHandlered = 0;
-        ConcurrentDictionary<Type, bool> _dicTypeHandlerTypes = Utils.GlobalCacheFactory.CreateCacheItem(new ConcurrentDictionary<Type, bool>());
+        static readonly string CacheKey = Guid.NewGuid().ToString() + ".";
+
+        ConcurrentDictionary<Type, bool> _dicTypeHandlerTypes = Utils.GlobalCacheFactory.CreateCacheItem(CacheKey+ "_dicTypeHandlerTypes", new ConcurrentDictionary<Type, bool>());
         object _concurrentObj = new object();
     }
 }

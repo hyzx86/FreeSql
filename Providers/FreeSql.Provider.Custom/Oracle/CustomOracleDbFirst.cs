@@ -115,7 +115,9 @@ namespace FreeSql.Custom.Oracle
             throw new NotImplementedException(CoreStrings.S_TypeMappingNotImplemented(column.DbTypeTextFull));
         }
 
-        static ConcurrentDictionary<string, DbToCs> _dicDbToCs = Utils.GlobalCacheFactory.CreateCacheItem(new ConcurrentDictionary<string, DbToCs>(StringComparer.CurrentCultureIgnoreCase));
+        static readonly string CacheKey = Guid.NewGuid().ToString() + ".";
+
+        static ConcurrentDictionary<string, DbToCs> _dicDbToCs = Utils.GlobalCacheFactory.CreateCacheItem(CacheKey + "__dicDbToCs", new ConcurrentDictionary<string, DbToCs>(StringComparer.CurrentCultureIgnoreCase));
         static CustomOracleDbFirst()
         {
             var defaultDbToCs = new Dictionary<string, DbToCs>() {
