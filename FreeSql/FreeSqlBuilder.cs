@@ -59,7 +59,7 @@ namespace FreeSql
         /// </summary>
         /// <param name="factory"></param>
         /// <returns></returns>
-        [Obsolete("请使用 UseCacheFactory", true)]
+        [Obsolete("请使用 UseCacheFactory")]
         public FreeSqlBuilder UseCustomTableEntityCacheFactory(Func<ConcurrentDictionary<DataType, ConcurrentDictionary<Type, TableInfo>>> factory)
         {
             Utils._cacheGetTableByEntity = factory.Invoke();
